@@ -1,0 +1,94 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Candidato {
+    private String nome;
+    private int idade;
+    private int experiencia;
+
+    public Candidato(String nome, int idade, int experiencia) {
+        this.nome = nome;
+        this.idade = idade;
+        this.experiencia = experiencia;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public int getExperiencia() {
+        return experiencia;
+    }
+}
+
+class ProcessoSeletivo {
+    private List<Candidato> candidatosAprovados = new ArrayList<>();
+    private static final int IDADE_MINIMA = 18;
+    private static final int EXPERIENCIA_MINIMA = 2;
+
+    public void validarCandidato(Candidato candidato) {
+        if (candidato.getIdade() >= IDADE_MINIMA && candidato.getExperiencia() >= EXPERIENCIA_MINIMA) {
+            candidatosAprovados.add(candidato);
+            System.out.println(candidato.getNome() + " foi aprovado!");
+        } else {
+            System.out.println(candidato.getNome() + " não atende aos critérios.");
+        }
+    }
+
+    public void listarAprovados() {
+        System.out.println("\nCandidatos aprovados:");
+        for (Candidato candidato : candidatosAprovados) {
+            System.out.println("- " + candidato.getNome());
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ProcessoSeletivo processoSeletivo = new ProcessoSeletivo();
+
+        System.out.println("=== Sistema de Processo Seletivo ===");
+
+        while (true) {
+            System.out.println("\n1. Inscrever candidato");
+            System.out.println("2. Listar aprovados");
+            System.out.println("3. Sair");
+            System.out.print("Escolha uma opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            if (opcao == 1) {
+                System.out.print("Digite o nome do candidato: ");
+                String nome = scanner.nextLine();
+
+                System.out.print("Digite a idade do candidato: ");
+                int idade = scanner.nextInt();
+
+                System.out.print("Digite os anos de experiência do candidato: ");
+                int experiencia = scanner.nextInt();
+                scanner.nextLine();
+
+                Candidato candidato = new Candidato(nome, idade, experiencia);
+                processoSeletivo.validarCandidato(candidato);
+
+            } else if (opcao == 2) {
+                processoSeletivo.listarAprovados();
+
+            } else if (opcao == 3) {
+                System.out.println("Encerrando o sistema...");
+                break;
+
+            } else {
+                System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+
+        scanner.close();
+    }
+}
